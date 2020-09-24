@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
 import "./index.scss";
-import App from "./App";
+import App from "./app/app.component";
 import * as serviceWorker from "./serviceWorker";
 import { Amplify } from "aws-amplify";
 import awsConfig from "./aws.config";
+import { AppContextProvider } from "./context/app.context";
 
 Amplify.configure({
   Auth: {
@@ -33,9 +33,9 @@ Amplify.configure({
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <AppContextProvider>
       <App />
-    </BrowserRouter>
+    </AppContextProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
