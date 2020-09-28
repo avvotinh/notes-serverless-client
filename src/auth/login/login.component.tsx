@@ -4,15 +4,13 @@ import { Auth } from "aws-amplify";
 import "./login.styles.scss";
 import { useAppContext } from "../../context/app.context";
 import { ActionType } from "../../context/app.reducer";
-import { useHistory } from "react-router-dom";
 import LoaderButton from "../../controls/loaderButton/loaderButton.component";
 import { onError } from "../../service/errorHandler.service";
 import { useFormFields } from "../../service/hooks.service";
 
 export default function Login() {
-  const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
-  const { state, dispatch } = useAppContext();
+  const { dispatch } = useAppContext();
   const [fields, handleFieldChanged] = useFormFields({
     email: "",
     password: "",
@@ -31,7 +29,6 @@ export default function Login() {
       await Auth.signIn(fields.email, fields.password);
 
       dispatch && dispatch({ type: ActionType.SIGN_IN });
-      history.push("/");
     } catch (e) {
       onError(e);
       setIsLoading(false);
@@ -49,7 +46,7 @@ export default function Login() {
           <FormLabel>Password</FormLabel>
           <FormControl value={fields.password} onChange={handleFieldChanged} type="password" />
         </FormGroup>
-        <LoaderButton block type="submit" bsSize="large" isLoading={isLoading} disabled={!validateForm()}>
+        <LoaderButton block type="submit" isLoading={isLoading} disabled={!validateForm()}>
           Login
         </LoaderButton>
       </form>
